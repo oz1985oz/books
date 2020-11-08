@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { Observable, of } from 'rxjs';
-import { debounceTime, map, switchMap } from 'rxjs/operators';
+import { debounceTime, map, switchMap, tap } from 'rxjs/operators';
 import { BooksResults } from 'src/app/models/booksResults';
 import { GoogleApiService } from 'src/app/services/google-api.service';
 
@@ -14,7 +14,8 @@ import { GoogleApiService } from 'src/app/services/google-api.service';
 export class BookSearchComponent implements OnInit {
 
   searchControl = new FormControl();
-  booksResults: BooksResults;
+  booksResults: Observable<BooksResults>;
+  dataLength: number;
 
   constructor(private googleApiService: GoogleApiService) { }
 
@@ -28,12 +29,18 @@ export class BookSearchComponent implements OnInit {
 
   pageChange(pageEvent: PageEvent): void {
     const val = this.searchControl.value;
-    this.googleApiService.serachBooks(val, this.calcStartIndex(pageEvent), pageEvent.pageSize).subscribe(res => this.booksResults = res);
+    this.booksResults = this.googleApiService.serachBooks(val, this.calcStartIndex(pageEvent), pageEvent.pageSize)
+      .pipe(tap(x => this.dataLength = x.totalItems));
+  }
+
+  typingEvent(): void {
+    this.searchControl.valueChanges
+      .pipe(debounceTime(300), switchMap(val => this.googleApiService.serachBooks(val)))
+      .pipe(tap(x => this.dataLength = x.totalItems));
   }
 
   ngOnInit(): void {
-    this.searchControl.valueChanges
-      .pipe(debounceTime(300), switchMap(val => this.googleApiService.serachBooks(val))).subscribe(res => this.booksResults = res);
+    this.typingEvent();
   }
 
 }

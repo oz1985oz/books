@@ -5,13 +5,13 @@
   </mat-form-field>
 </form>
 
-<ng-container *ngIf="booksResults?.totalItems">
+<ng-container *ngIf="dataLength > 0">
   <mat-paginator
-    [length]="booksResults?.totalItems"
+    [length]="dataLength"
     [pageSize]="20"
     [pageSizeOptions]="[5, 10, 20, 40]"
     (page)="pageChange($event)">
   ></mat-paginator>
 </ng-container>
 
-<app-books [books]="booksResults"></app-books>
+<app-books [books]="booksResults | async"></app-books>
