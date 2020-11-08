@@ -34,7 +34,7 @@ export class BookSearchComponent implements OnInit {
   }
 
   typingEvent(): void {
-    this.searchControl.valueChanges
+    this.booksResults = this.searchControl.valueChanges
       .pipe(debounceTime(300), switchMap(val => this.googleApiService.serachBooks(val)))
       .pipe(tap(x => this.dataLength = x.totalItems));
   }
