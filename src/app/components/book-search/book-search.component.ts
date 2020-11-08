@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
-import { Observable, of } from 'rxjs';
-import { debounceTime, map, switchMap, tap } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { debounceTime, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { BooksResults } from 'src/app/models/booksResults';
 import { GoogleApiService } from 'src/app/services/google-api.service';
 
@@ -11,11 +11,12 @@ import { GoogleApiService } from 'src/app/services/google-api.service';
   templateUrl: './book-search.component.html',
   styleUrls: ['./book-search.component.scss']
 })
-export class BookSearchComponent implements OnInit {
+export class BookSearchComponent implements OnInit, OnDestroy {
 
   searchControl = new FormControl();
   booksResults: Observable<BooksResults>;
   dataLength: number;
+  private destroyed$ = new Subject<void>();
 
   constructor(private googleApiService: GoogleApiService) { }
 
@@ -34,13 +35,20 @@ export class BookSearchComponent implements OnInit {
   }
 
   typingEvent(): void {
-    this.booksResults = this.searchControl.valueChanges
-      .pipe(debounceTime(300), switchMap(val => this.googleApiService.serachBooks(val)))
-      .pipe(tap(x => this.dataLength = x.totalItems));
+    this.searchControl.valueChanges.pipe(debounceTime(400), takeUntil(this.destroyed$)).subscribe(text => {
+      if (text) {
+        this.booksResults = this.googleApiService.serachBooks(text).pipe(tap(x => this.dataLength = x.totalItems));
+      }
+    });
   }
 
   ngOnInit(): void {
     this.typingEvent();
+  }
+
+  ngOnDestroy(): void {
+    this.destroyed$.next();
+    this.destroyed$.complete();
   }
 
 }
