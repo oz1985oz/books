@@ -1,0 +1,27 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+.left {
+  display: flex;
+  align-items: baseline;
+}
+
+.greeting {
+  margin: 0 8px;
+  font-size: 14px;
+  color: #7fffd4;
+}
+
+.mobile {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .desktop {
+    display: none;
+  }
+  .mobile {
+    display: block;
+  }
+}

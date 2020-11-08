@@ -1,0 +1,16 @@
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .left {
+    margin-right: 1rem;
+  }
+
+  .right {
+    max-width: 800px;
+    .author {
+      margin: 0 4px;
+    }
+  }
+}

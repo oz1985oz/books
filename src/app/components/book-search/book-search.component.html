@@ -1,0 +1,17 @@
+<form>
+  <mat-form-field appearance="outline">
+    <input matInput type="text" placeholder="Search book" aria-label="Area" [formControl]="searchControl">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+</form>
+
+<ng-container *ngIf="booksResults?.totalItems">
+  <mat-paginator
+    [length]="booksResults?.totalItems"
+    [pageSize]="20"
+    [pageSizeOptions]="[5, 10, 20, 40]"
+    (page)="pageChange($event)">
+  ></mat-paginator>
+</ng-container>
+
+<app-books [books]="booksResults"></app-books>

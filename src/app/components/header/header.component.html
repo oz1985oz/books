@@ -1,0 +1,16 @@
+<mat-toolbar color="primary">
+  <div class="left">
+    <h1>Books Info</h1>
+    <h2 *ngIf="isSignIn()" class="greeting">Hello {{ userName() }}</h2>
+  </div>
+  <span class="spacer"></span>
+  <ng-container *ngIf="isSignIn()">
+    <button mat-raised-button class="desktop" color="accent" (click)="signout()" aria-label="signout">
+      <mat-icon>exit_to_app</mat-icon>
+      sign-out
+    </button>
+    <button mat-icon-button class="mobile" color="accent" (click)="signout()" aria-label="icon-button with exit_to_app icon">
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
+  </ng-container>
+</mat-toolbar>

@@ -1,0 +1,9 @@
+<form #form="ngForm">
+  <mat-form-field appearance="outline">
+    <mat-label>username</mat-label>
+    <input matInput name="username" placeholder="username" [(ngModel)]="userName" required>
+    <mat-error>required field</mat-error>
+    <mat-icon matSuffix>person</mat-icon>
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="signIn(form)">sign-in</button>
+</form>
