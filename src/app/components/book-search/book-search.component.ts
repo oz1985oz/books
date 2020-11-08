@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
-import { Observable, of, Subject } from 'rxjs';
-import { debounceTime, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, takeUntil, tap } from 'rxjs/operators';
 import { BooksResults } from 'src/app/models/booksResults';
 import { GoogleApiService } from 'src/app/services/google-api.service';
 
@@ -13,10 +13,13 @@ import { GoogleApiService } from 'src/app/services/google-api.service';
 })
 export class BookSearchComponent implements OnInit, OnDestroy {
 
+  @Input() fromCache: boolean;
+  private destroyed$ = new Subject<void>();
+
+  pageEvent: PageEvent;
   searchControl = new FormControl();
   booksResults: Observable<BooksResults>;
   dataLength: number;
-  private destroyed$ = new Subject<void>();
 
   constructor(private googleApiService: GoogleApiService) { }
 
@@ -29,15 +32,17 @@ export class BookSearchComponent implements OnInit, OnDestroy {
   }
 
   pageChange(pageEvent: PageEvent): void {
+    this.pageEvent = pageEvent;
     const val = this.searchControl.value;
-    this.booksResults = this.googleApiService.serachBooks(val, this.calcStartIndex(pageEvent), pageEvent.pageSize)
+    this.booksResults = this.googleApiService.searchBooks(val, this.fromCache, this.calcStartIndex(pageEvent), pageEvent.pageSize)
       .pipe(tap(x => this.dataLength = x.totalItems));
   }
 
   typingEvent(): void {
     this.searchControl.valueChanges.pipe(debounceTime(400), takeUntil(this.destroyed$)).subscribe(text => {
       if (text) {
-        this.booksResults = this.googleApiService.serachBooks(text).pipe(tap(x => this.dataLength = x.totalItems));
+        this.booksResults = this.googleApiService.searchBooks(text, this.fromCache, 0, this.pageEvent?.pageSize)
+          .pipe(tap(x => this.dataLength = x.totalItems));
       }
     });
   }

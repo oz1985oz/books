@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 
@@ -7,7 +7,7 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './user-name.component.html',
   styleUrls: ['./user-name.component.scss']
 })
-export class UserNameComponent implements OnInit {
+export class UserNameComponent {
 
   userName: string;
 
@@ -18,8 +18,4 @@ export class UserNameComponent implements OnInit {
       this.userService.signIn(this.userName);
     }
   }
-
-  ngOnInit(): void {
-  }
-
 }

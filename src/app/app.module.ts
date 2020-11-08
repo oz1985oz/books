@@ -23,6 +23,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { BooksComponent } from './components/books/books.component';
 import { BookComponent } from './components/book/book.component';
 import { BookDialogInfoComponent } from './components/book-dialog-info/book-dialog-info.component';
+import { WishlistComponent } from './components/wishlist/wishlist.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { BookDialogInfoComponent } from './components/book-dialog-info/book-dial
     BooksComponent,
     BookComponent,
     BookDialogInfoComponent,
+    WishlistComponent,
   ],
   imports: [
     BrowserModule,
