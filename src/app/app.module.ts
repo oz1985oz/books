@@ -13,6 +13,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 // components
 import { AppComponent } from './app.component';
@@ -50,7 +52,9 @@ import { WishlistComponent } from './components/wishlist/wishlist.component';
     MatInputModule,
     ReactiveFormsModule,
     MatPaginatorModule,
-    MatDialogModule
+    MatDialogModule,
+    MatBadgeModule,
+    MatTooltipModule
   ],
   bootstrap: [AppComponent],
 })

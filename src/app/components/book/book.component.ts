@@ -19,7 +19,7 @@ export class BookComponent {
       maxWidth: '95%',
       minWidth: '60%',
       maxHeight: '88vh',
-      data: this.book?.volumeInfo
+      data: this.book
     });
   }
 }

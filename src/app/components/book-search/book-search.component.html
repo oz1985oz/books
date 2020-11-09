@@ -1,3 +1,6 @@
+<h2 *ngIf="!_wishlist">Books</h2>
+<h2 *ngIf="_wishlist">Wish-list</h2>
+
 <form>
   <mat-form-field appearance="outline">
     <input matInput type="text" placeholder="Search book" aria-label="Area" [formControl]="searchControl">

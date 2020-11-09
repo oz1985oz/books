@@ -24,6 +24,9 @@ export class CacheService {
   }
 
   setEntry(key: string, value: any): void {
+    if (typeof value === 'object') {
+      value = JSON.stringify(value);
+    }
     localStorage.setItem(key, value);
   }
 

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { BooksService } from 'src/app/services/books.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -8,7 +9,10 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class HeaderComponent {
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private booksService: BooksService
+  ) { }
 
   signout(): void {
     this.userService.signout();
@@ -20,6 +24,10 @@ export class HeaderComponent {
 
   userName(): string {
     return this.userService.getUserName();
+  }
+
+  getWishlistCount(): number {
+    return this.booksService.wishlistCount();
   }
 
 }

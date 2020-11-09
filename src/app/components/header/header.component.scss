@@ -5,6 +5,8 @@
 .left {
   display: flex;
   align-items: baseline;
+  cursor: pointer;
+  outline: none;
 }
 
 .greeting {
@@ -17,11 +19,22 @@
   display: none;
 }
 
+.btns-header {
+  button {
+    margin: 0 2px;
+  }
+}
+
 @media screen and (max-width: 600px) {
   .desktop {
     display: none;
   }
   .mobile {
     display: block;
+  }
+
+  .btns-header {
+    display: flex;
+
   }
 }

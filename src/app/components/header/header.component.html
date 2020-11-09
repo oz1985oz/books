@@ -1,16 +1,23 @@
 <mat-toolbar color="primary">
-  <div class="left">
+  <div class="left" [routerLink]="['/books-search']">
     <h1>Books Info</h1>
     <h2 *ngIf="isSignIn()" class="greeting">Hello {{ userName() }}</h2>
   </div>
   <span class="spacer"></span>
-  <ng-container *ngIf="isSignIn()">
+  <div class="btns-header" *ngIf="isSignIn()">
+    <button mat-icon-button class="mobile" color="accent" [routerLink]="['/wishlist']" aria-label="favorite icon">
+      <mat-icon [matBadge]="getWishlistCount()" matBadgeColor="accent">favorite</mat-icon>
+    </button>
+    <button mat-raised-button class="desktop" color="accent" [routerLink]="['/wishlist']" aria-label="favorite icon">
+      <mat-icon [matBadge]="getWishlistCount()" matBadgePosition="before" matBadgeColor="warn">favorite</mat-icon>
+      wish-list
+    </button>
     <button mat-raised-button class="desktop" color="accent" (click)="signout()" aria-label="signout">
       <mat-icon>exit_to_app</mat-icon>
       sign-out
     </button>
-    <button mat-icon-button class="mobile" color="accent" (click)="signout()" aria-label="icon-button with exit_to_app icon">
+    <button mat-icon-button class="mobile" color="accent" (click)="signout()" aria-label="exit_to_app icon">
       <mat-icon>exit_to_app</mat-icon>
     </button>
-  </ng-container>
+  </div>
 </mat-toolbar>

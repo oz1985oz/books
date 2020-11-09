@@ -1,14 +1,20 @@
 <div class="wrapper">
   <div class="left">
-    <img [src]="data.imageLinks?.thumbnail" [alt]="data.title">
+    <img [src]="data.volumeInfo?.imageLinks?.thumbnail" [alt]="data.volumeInfo?.title">
   </div>
   <div class="right">
-    <h2>{{data.title}}</h2>
-    <p><b>by</b> <span class="author" *ngFor="let a of data.authors">{{a}}</span>.</p>
-    <p *ngIf="data.description">{{data.description}}</p>
-    <p *ngIf="data.publisher"><b>Publisher:</b> {{data.publisher}}.</p>
-    <p *ngIf="data.publishedDate"><b>Published date:</b> {{data.publishedDate | date}}.</p>
+    <div class="row">
+      <h2>{{data.volumeInfo?.title}}</h2>
+      <button mat-icon-button *ngIf="!existOnWishlist()" color="accent" aria-label="favorite icon" matTooltip="Add to wish-list" (click)="addToWishlist()">
+        <mat-icon>favorite_border</mat-icon>
+      </button>
+      <button mat-icon-button *ngIf="existOnWishlist()" color="accent" aria-label="favorite icon" matTooltip="Remove from wish-list" (click)="deleteFromWishlist()">
+        <mat-icon>favorite</mat-icon>
+      </button>
+    </div>
+    <p><b>by</b> <span class="author" *ngFor="let a of data.volumeInfo?.authors">{{a}}</span>.</p>
+    <p *ngIf="data.volumeInfo?.description">{{data.volumeInfo?.description}}</p>
+    <p *ngIf="data.volumeInfo?.publisher"><b>Publisher:</b> {{data.volumeInfo?.publisher}}.</p>
+    <p *ngIf="data.volumeInfo?.publishedDate"><b>Published date:</b> {{data.volumeInfo?.publishedDate | date}}.</p>
   </div>
 </div>
-
-
