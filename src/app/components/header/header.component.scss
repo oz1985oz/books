@@ -4,9 +4,17 @@
 
 .left {
   display: flex;
-  align-items: baseline;
-  cursor: pointer;
-  outline: none;
+  align-items: center;
+  h1 {
+    margin-right: 4px;
+  }
+  h2 {
+    display: contents;
+  }
+  .home-icon {
+    cursor: pointer;
+    outline: none;
+  }
 }
 
 .greeting {

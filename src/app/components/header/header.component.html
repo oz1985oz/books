@@ -1,5 +1,8 @@
 <mat-toolbar color="primary">
-  <div class="left" [routerLink]="['/books-search']">
+  <div class="left">
+    <button mat-icon-button *ngIf="isSignIn()" color="accent" [routerLink]="['/books-search']" aria-label="home icon">
+      <mat-icon>home</mat-icon>
+    </button>
     <h1>Books Info</h1>
     <h2 *ngIf="isSignIn()" class="greeting">Hello {{ userName() }}</h2>
   </div>
