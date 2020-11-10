@@ -47,7 +47,7 @@ export class BookSearchComponent implements OnInit, OnDestroy {
     this.searchControl.valueChanges.pipe(debounceTime(400), takeUntil(this.destroyed$)).subscribe(text => {
       if (text || this._wishlist) {
         this.booksResults = this.booksService.searchBooks(text, this._wishlist, 0, this.pageEvent?.pageSize)
-          .pipe(tap(x => this.dataLength = x.totalItems));
+          .pipe(tap(x => this.dataLength = x?.totalItems));
       }
     });
   }

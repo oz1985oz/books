@@ -50,7 +50,7 @@ export class BooksResults {
   totalItems: number;
 
   constructor(booksResults: BooksResults) {
-    this.items = booksResults.items.map(i => new Item(i));
+    this.items = booksResults.items?.map(i => new Item(i));
     this.totalItems = booksResults.totalItems;
   }
 }

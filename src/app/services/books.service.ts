@@ -88,10 +88,14 @@ export class BooksService {
   }
 
   searchFromCache(word: string): Observable<BooksResults> {
-    const copyBooks = JSON.parse(this.cacheService.getOnEntry(this.wishlistKey));
-    const filtered = copyBooks.items.filter(i => i.volumeInfo.title.toLowerCase().includes(word));
-    copyBooks.items = filtered;
-    return of(copyBooks);
+    const copyBooks: BooksResults = JSON.parse(this.cacheService.getOnEntry(this.wishlistKey));
+    if (copyBooks) {
+      const filtered = copyBooks.items.filter(i => i.volumeInfo.title.toLowerCase().includes(word));
+      copyBooks.items = filtered;
+      return of(copyBooks);
+    } else {
+      return of({} as BooksResults);
+    }
   }
 
   searchBooks(word: string, wishlist = false, startIndex: number = 0, maxResults: number = 20): Observable<BooksResults> {
