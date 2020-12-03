@@ -26,6 +26,8 @@ import { BooksComponent } from './components/books/books.component';
 import { BookComponent } from './components/book/book.component';
 import { BookDialogInfoComponent } from './components/book-dialog-info/book-dialog-info.component';
 import { WishlistComponent } from './components/wishlist/wishlist.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,8 @@ import { WishlistComponent } from './components/wishlist/wishlist.component';
     MatPaginatorModule,
     MatDialogModule,
     MatBadgeModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   bootstrap: [AppComponent],
 })
