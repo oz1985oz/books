@@ -11,84 +11,84 @@ import { map } from 'rxjs/operators';
 })
 export class BooksService {
 
-  private renderWishlist = new BehaviorSubject<boolean>(null);
-  renderWishlistStatus = this.renderWishlist.asObservable();
+  private renderCartView = new BehaviorSubject<boolean>(null);
+  renderCartViewStatus = this.renderCartView.asObservable();
 
-  wishlistKey = 'wishList';
-  wishlist: BooksResults;
-  wishlistMap = new Map();
+  cartKey = 'cartList';
+  booksResultsCart: BooksResults;
+  cartMap = new Map();
 
   constructor(
     private http: HttpClient,
     private cacheService: CacheService,
   ) {
-    this.setWishlistMap();
+    this.setCartMap();
   }
 
   stopRender(): void {
-    this.renderWishlist.next(null);
+    this.renderCartView.next(null);
   }
 
-  setWishlistMap(): void {
-    this.wishlist = this.getBooksFromCache();
-    if (this.wishlist) {
-      this.wishlist.items?.map(itm => this.wishlistMap.set(itm.id, itm));
+  setCartMap(): void {
+    this.booksResultsCart = this.getBooksFromCache();
+    if (this.booksResultsCart) {
+      this.booksResultsCart.items?.map(itm => this.cartMap.set(itm.id, itm));
     }
   }
 
-  wishlistCount(): number {
-    return this.wishlistMap.size;
+  cartCount(): number {
+    return this.cartMap.size;
   }
 
-  existOnWishlist(item: Item): boolean {
-    return this.wishlistMap.has(item.id);
+  existOnCart(item: Item): boolean {
+    return this.cartMap.has(item.id);
   }
 
-  addWishList(item: Item): void {
-    this.wishlistMap.set(item.id, item);
-    this.wishlist = {} as BooksResults;
-    this.wishlist.totalItems = this.wishlistMap.size;
-    this.wishlist.items = [...this.wishlistMap.values()];
-    this.cacheService.setEntry(this.wishlistKey, this.wishlist);
+  addCart(item: Item): void {
+    this.cartMap.set(item.id, item);
+    this.booksResultsCart = {} as BooksResults;
+    this.booksResultsCart.totalItems = this.cartMap.size;
+    this.booksResultsCart.items = [...this.cartMap.values()];
+    this.cacheService.setEntry(this.cartKey, this.booksResultsCart);
   }
 
-  removeFromWishList(item: Item): void {
-    this.wishlistMap.delete(item.id);
-    this.wishlist = {} as BooksResults;
-    this.wishlist.totalItems = this.wishlistMap.size;
-    this.wishlist.items = [...this.wishlistMap.values()];
-    this.cacheService.setEntry(this.wishlistKey, this.wishlist);
+  removeFromCart(item: Item): void {
+    this.cartMap.delete(item.id);
+    this.booksResultsCart = {} as BooksResults;
+    this.booksResultsCart.totalItems = this.cartMap.size;
+    this.booksResultsCart.items = [...this.cartMap.values()];
+    this.cacheService.setEntry(this.cartKey, this.booksResultsCart);
   }
 
-  addToWishList(item: Item): void {
-    if (!this.wishlistMap.size) {
-      this.setWishlistMap();
+  addToCart(item: Item): void {
+    if (!this.cartMap.size) {
+      this.setCartMap();
     }
-    this.addWishList(item);
-    this.renderWishlist.next(true);
+    this.addCart(item);
+    this.renderCartView.next(true);
   }
 
-  deleteFromWishlist(item: Item): void {
-    if (!this.wishlistMap.size) {
-      this.setWishlistMap();
+  deleteFromCart(item: Item): void {
+    if (!this.cartMap.size) {
+      this.setCartMap();
     }
-    this.removeFromWishList(item);
-    this.renderWishlist.next(true);
+    this.removeFromCart(item);
+    this.renderCartView.next(true);
   }
 
   getBooksFromCache(): BooksResults {
-    if (this.wishlist) {
-      return this.wishlist;
-    } else if (this.cacheService.isExist(this.wishlistKey)) {
-      this.wishlist = JSON.parse(this.cacheService.getOnEntry(this.wishlistKey));
-      return this.wishlist;
+    if (this.booksResultsCart) {
+      return this.booksResultsCart;
+    } else if (this.cacheService.isExist(this.cartKey)) {
+      this.booksResultsCart = JSON.parse(this.cacheService.getOnEntry(this.cartKey));
+      return this.booksResultsCart;
     } else {
       return null;
     }
   }
 
   searchFromCache(word: string): Observable<BooksResults> {
-    const copyBooks: BooksResults = JSON.parse(this.cacheService.getOnEntry(this.wishlistKey));
+    const copyBooks: BooksResults = JSON.parse(this.cacheService.getOnEntry(this.cartKey));
     if (copyBooks) {
       const filtered = copyBooks.items.filter(i => i.volumeInfo.title.toLowerCase().includes(word));
       copyBooks.items = filtered;
@@ -98,8 +98,8 @@ export class BooksService {
     }
   }
 
-  searchBooks(word: string, wishlist = false, startIndex: number = 0, maxResults: number = 20): Observable<BooksResults> {
-    if (wishlist) {
+  searchBooks(word: string, cartMode = false, startIndex: number = 0, maxResults: number = 25): Observable<BooksResults> {
+    if (cartMode) {
       if (word) {
         return this.searchFromCache(word);
       } else {

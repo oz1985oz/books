@@ -14,19 +14,23 @@ import { BooksService } from 'src/app/services/books.service';
 export class BookSearchComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line: variable-name
-  _wishlist: boolean;
-  @Input() set wishlist(val: boolean) {
-    this.booksResults = this.booksService.searchBooks('', val);
-    this._wishlist = val;
+  _cartMode: boolean;
+  @Input() set cartMode(val: boolean) {
+    if (val) {
+      this.booksResults$ = this.booksService.searchBooks('', val);
+      this._cartMode = val;
+    }
   }
+
   private destroyed$ = new Subject<void>();
 
   pageEvent: PageEvent;
   searchControl = new FormControl();
-  booksResults: Observable<BooksResults>;
+  booksResults$: Observable<BooksResults>;
   dataLength: number;
 
-  constructor(private booksService: BooksService) { }
+  constructor(private booksService: BooksService) {
+  }
 
   calcStartIndex(pageEvent: PageEvent): number {
     if (pageEvent?.pageSize) {
@@ -39,24 +43,32 @@ export class BookSearchComponent implements OnInit, OnDestroy {
   pageChange(pageEvent: PageEvent): void {
     this.pageEvent = pageEvent;
     const val = this.searchControl.value;
-    this.booksResults = this.booksService.searchBooks(val, this._wishlist, this.calcStartIndex(pageEvent), pageEvent.pageSize)
+    this.booksResults$ = this.booksService.searchBooks(val, this._cartMode, this.calcStartIndex(pageEvent), pageEvent.pageSize)
       .pipe(tap(x => this.dataLength = x.totalItems));
   }
 
   typingEvent(): void {
-    this.searchControl.valueChanges.pipe(debounceTime(400), takeUntil(this.destroyed$)).subscribe(text => {
-      if (text || this._wishlist) {
-        this.booksResults = this.booksService.searchBooks(text, this._wishlist, 0, this.pageEvent?.pageSize)
-          .pipe(tap(x => this.dataLength = x?.totalItems));
+    this.searchControl.valueChanges.pipe(
+      debounceTime(400),
+      takeUntil(this.destroyed$)
+    ).subscribe(text => {
+      if (text || this._cartMode) {
+        this.booksResults$ = this.booksService.searchBooks(text, this._cartMode, 0, this.pageEvent?.pageSize)
+          .pipe(tap(x => {
+            this.dataLength = x?.totalItems;
+          }));
       }
     });
   }
 
   ngOnInit(): void {
     this.typingEvent();
-    this.booksService.renderWishlistStatus.pipe(takeUntil(this.destroyed$)).subscribe(render => {
-      if (render && this._wishlist) {
-        this.booksResults = this.booksService.searchBooks('', this._wishlist);
+    if (!this._cartMode) {
+      this.searchControl.setValue('gay');
+    }
+    this.booksService.renderCartViewStatus.pipe(takeUntil(this.destroyed$)).subscribe(render => {
+      if (render && this._cartMode) {
+        this.booksResults$ = this.booksService.searchBooks('', this._cartMode);
         this.booksService.stopRender();
       }
     });

@@ -16,15 +16,15 @@ export class BookDialogInfoComponent {
     @Inject(MAT_DIALOG_DATA) public data: Item
   ) { }
 
-  addToWishlist(): void {
-    this.booksService.addToWishList(this.data);
+  addToCart(): void {
+    this.booksService.addToCart(this.data);
   }
 
-  deleteFromWishlist(): void {
-    this.booksService.deleteFromWishlist(this.data);
+  deleteFromCart(): void {
+    this.booksService.deleteFromCart(this.data);
   }
 
-  existOnWishlist(): boolean {
-    return this.booksService.existOnWishlist(this.data);
+  existOnCart(): boolean {
+    return this.booksService.existOnCart(this.data);
   }
 }

@@ -5,10 +5,10 @@
   <div class="right">
     <div class="row">
       <h2>{{data.volumeInfo?.title}}</h2>
-      <button mat-icon-button *ngIf="!existOnWishlist()" color="accent" aria-label="favorite icon" matTooltip="Add to wish-list" (click)="addToWishlist()">
+      <button mat-icon-button *ngIf="!existOnCart()" color="accent" aria-label="favorite icon" matTooltip="Add to cart" (click)="addToCart()">
         <mat-icon>favorite_border</mat-icon>
       </button>
-      <button mat-icon-button *ngIf="existOnWishlist()" color="accent" aria-label="favorite icon" matTooltip="Remove from wish-list" (click)="deleteFromWishlist()">
+      <button mat-icon-button *ngIf="existOnCart()" color="accent" aria-label="favorite icon" matTooltip="Remove from cart" (click)="deleteFromCart()">
         <mat-icon>favorite</mat-icon>
       </button>
     </div>

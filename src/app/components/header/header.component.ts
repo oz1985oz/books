@@ -26,8 +26,8 @@ export class HeaderComponent {
     return this.userService.getUserName();
   }
 
-  getWishlistCount(): number {
-    return this.booksService.wishlistCount();
+  getCartCount(): number {
+    return this.booksService.cartCount();
   }
 
 }

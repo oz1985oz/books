@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { BookSearchComponent } from './components/book-search/book-search.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { UserNameComponent } from './components/user-name/user-name.component';
-import { WishlistComponent } from './components/wishlist/wishlist.component';
+import { CartComponent } from './components/cart/cart.component';
 
 const routes: Routes = [
   {
@@ -15,8 +15,8 @@ const routes: Routes = [
     component: BookSearchComponent,
   },
   {
-    path: 'wishlist',
-    component: WishlistComponent,
+    path: 'cart',
+    component: CartComponent,
   },
   { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent },

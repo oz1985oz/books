@@ -3,17 +3,16 @@
     <button mat-icon-button *ngIf="isSignIn()" color="accent" [routerLink]="['/books-search']" aria-label="home icon">
       <mat-icon>home</mat-icon>
     </button>
-    <h1>Books Info</h1>
+    <h1>OOO book store</h1>
     <h2 *ngIf="isSignIn()" class="greeting">Hello {{ userName() }}</h2>
   </div>
   <span class="spacer"></span>
   <div class="btns-header" *ngIf="isSignIn()">
-    <button mat-icon-button class="mobile" color="accent" [routerLink]="['/wishlist']" aria-label="favorite icon">
-      <mat-icon [matBadge]="getWishlistCount()" matBadgeColor="accent">favorite</mat-icon>
+    <button mat-icon-button class="mobile" color="accent" [routerLink]="['/cart']" aria-label="shopping_cart icon">
+      <mat-icon [matBadge]="getCartCount()" matBadgeColor="accent">shopping_cart</mat-icon>
     </button>
-    <button mat-raised-button class="desktop" color="accent" [routerLink]="['/wishlist']" aria-label="favorite icon">
-      <mat-icon [matBadge]="getWishlistCount()" matBadgePosition="before" matBadgeColor="warn">favorite</mat-icon>
-      wish-list
+    <button mat-raised-button class="desktop" color="accent" [routerLink]="['/cart']" aria-label="shopping_cart icon">
+      <mat-icon [matBadge]="getCartCount()" matBadgePosition="below after" matBadgeColor="warn">shopping_cart</mat-icon>
     </button>
     <button mat-raised-button class="desktop" color="accent" (click)="signout()" aria-label="signout">
       <mat-icon>exit_to_app</mat-icon>

@@ -1,5 +1,5 @@
-<h2 *ngIf="!_wishlist">Books</h2>
-<h2 *ngIf="_wishlist">Wish-list</h2>
+<h2 *ngIf="!_cartMode">Books</h2>
+<h2 *ngIf="_cartMode">Cart items</h2>
 
 <form>
   <mat-form-field appearance="outline">
@@ -11,10 +11,10 @@
 <ng-container *ngIf="dataLength > 0">
   <mat-paginator
     [length]="dataLength"
-    [pageSize]="20"
-    [pageSizeOptions]="[5, 10, 20, 40]"
+    [pageSize]="25"
+    [pageSizeOptions]="[10, 25, 50, 100]"
     (page)="pageChange($event)">
   ></mat-paginator>
 </ng-container>
 
-<app-books [books]="booksResults | async"></app-books>
+<app-books [books]="booksResults$ | async"></app-books>

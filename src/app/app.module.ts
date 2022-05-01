@@ -25,7 +25,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { BooksComponent } from './components/books/books.component';
 import { BookComponent } from './components/book/book.component';
 import { BookDialogInfoComponent } from './components/book-dialog-info/book-dialog-info.component';
-import { WishlistComponent } from './components/wishlist/wishlist.component';
+import { CartComponent } from './components/cart/cart.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
@@ -39,7 +39,7 @@ import { environment } from '../environments/environment';
     BooksComponent,
     BookComponent,
     BookDialogInfoComponent,
-    WishlistComponent,
+    CartComponent,
   ],
   imports: [
     BrowserModule,
