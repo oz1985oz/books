@@ -1,9 +1,17 @@
+<div class="company">
+  <div class="company-title">
+    <p>OOO</p>
+    <p>&</p>
+    <p>GAVNAZ Holders</p>
+  </div>
+</div>
+
 <form #form="ngForm">
   <mat-form-field appearance="outline">
-    <mat-label>username</mat-label>
-    <input matInput name="username" placeholder="username" [(ngModel)]="userName" required>
+    <mat-label>Enter your name</mat-label>
+    <input matInput name="username" placeholder="Enter your name" [(ngModel)]="userName" required>
     <mat-error>required field</mat-error>
     <mat-icon matSuffix>person</mat-icon>
   </mat-form-field>
-  <button mat-raised-button color="primary" (click)="signIn(form)">sign-in</button>
+  <button mat-raised-button color="primary" (click)="signIn(form)">Go to site</button>
 </form>

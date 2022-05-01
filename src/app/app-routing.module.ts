@@ -18,7 +18,7 @@ const routes: Routes = [
     path: 'cart',
     component: CartComponent,
   },
-  { path: '', redirectTo: '/sign-in', pathMatch: 'full' },
+  { path: '',   redirectTo: '/books-search', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent },
 ];
 
